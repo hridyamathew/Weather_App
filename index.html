@@ -30,6 +30,14 @@
         color: #0075cf;
         font-weight: bolder;
       }
+      @media (max-width: 576px) {
+        input {
+          width: 220px;
+        }
+        button {
+          width: 80px;
+        }
+      }
       .box {
         padding: 20px;
         background-color: #61b2f0;
@@ -42,7 +50,7 @@
   <body>
     <div
       style="
-        height: 100vh;
+        min-height: 100vh;
         background: linear-gradient(to right, #54b1f8, #057edb);
       "
     >
@@ -54,11 +62,11 @@
             type="text"
             placeholder="enter location"
           />
-          <button class="mt-5 ms-3" onclick="check()">Search</button>
+          <button class="mt-5 ms-2 ms-md-3" onclick="check()">Search</button>
         </div>
         <div id="output" class="text-white">
           <div
-            class="d-flex flex-column align-items-center justify-content-center mt-5"
+            class="d-flex flex-column align-items-center justify-content-center mt-5 float"
           >
             <img src="snow.png" alt="" width="220px" />
             <h4 class="mt-5">Get the Weather Update . . .</h4>
@@ -138,37 +146,39 @@
           let iconURL = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
 
           let output = document.getElementById("output");
-          output.innerHTML = `<div class="d-flex justify-content-between">
+          output.innerHTML = `<div class="d-flex flex-sm-column flex-md-row justify-content-center justify-content-md-between align-items-center flex-wrap">
                 <h1 class="mt-5">${result.name}</h1>
-                <div class="mt-5">
+                <div class="mt-2 mt-md-5">
                   <h4>${dateTime[0]}</h4>
-                  <h4 class="float-end">${dateTime[1]}</h4>
+                  <h4 class="float-md-end float-none text-center">${
+                    dateTime[1]
+                  }</h4>
                 </div>
               </div>
               <div style="height: 300px" class="d-flex align-items-center">
                 <img src="./day-and-night.png" alt="" width="160px" />
-                <h1 style="font-size: 80px" class="ms-4">${temperature}&deg;C</h1>
+                <h1 style="font-size: clamp(53px, 8vw, 80px);" class="ms-2 ms-md-4">${temperature}&deg;C</h1>
               </div>
-              <div class="d-flex justify-content-between">
-                <div class="box d-flex align-items-center justify-content-center">
+              <div class="d-flex flex-sm-column flex-md-row justify-content-center justify-content-md-between align-items-center flex-wrap">
+                <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0">
                   <img src="${iconURL}" alt="" width="50%" />
                   <h6>${result.weather[0].description.toUpperCase()}</h6>
                 </div>
-                <div class="box d-flex align-items-center justify-content-center ">
+                <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0">
                   <img src="./humidity.png" alt="" width="30%" />
                  <div class="d-flex flex-column align-items-center justify-content-center">
                   <h6>HUMIDITY</h6>
                   <h4>${humidity}%</h4>
                   </div>
                 </div>
-                <div class="box d-flex align-items-center justify-content-center ">
+                <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0 ">
                   <img src="./atmospheric.png" alt="" width="30%" />
                   <div class="d-flex flex-column align-items-center justify-content-center">
                   <h6>PRESSURE</h6>
                   <h4>${pressure} hPa</h4>
                   </div>
                 </div>
-                <div class="box d-flex align-items-center justify-content-center ">
+                <div class=" box d-flex align-items-center justify-content-center mt-3 mt-md-0 mb-5 mb-md-5">
                   <img src="./wind.png" alt="" width="30%" />
                   <div class="d-flex flex-column align-items-center justify-content-center">
                   <h6>WIND</h6>
