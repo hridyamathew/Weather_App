@@ -126,68 +126,76 @@
       return [day, time];
     };
 
-    const check = () => {
+    const check = async () => {
       dateTime = getDateTime();
       console.log(dateTime[0]);
 
       let city = document.getElementById("city").value;
-      fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5b4bee0ba241d092159faf007e166080&&units=metric`
-      ).then((res) => {
+      try {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5b4bee0ba241d092159faf007e166080&&units=metric`
+        );
         console.log(res);
-        res.json().then((result) => {
-          console.log(result);
-          let temperature = result.main.temp;
-          let humidity = result.main.humidity;
-          let pressure = result.main.pressure;
-          let wind_speed = result.wind.speed;
-          console.log(temperature, humidity, pressure, wind_speed);
-          console.log(result.weather[0].description);
-          let iconURL = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
+        const result = await res.json();
+        console.log(result);
+        let temperature = result.main.temp;
+        let humidity = result.main.humidity;
+        let pressure = result.main.pressure;
+        let wind_speed = result.wind.speed;
+        console.log(temperature, humidity, pressure, wind_speed);
+        console.log(result.weather[0].description);
+        let iconURL = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
 
-          let output = document.getElementById("output");
-          output.innerHTML = `<div class="d-flex flex-sm-column flex-md-row justify-content-center justify-content-md-between align-items-center flex-wrap">
-                <h1 class="mt-5">${result.name}</h1>
-                <div class="mt-2 mt-md-5">
-                  <h4>${dateTime[0]}</h4>
-                  <h4 class="float-md-end float-none text-center">${
-                    dateTime[1]
-                  }</h4>
-                </div>
-              </div>
-              <div style="height: 300px" class="d-flex align-items-center">
-                <img src="./day-and-night.png" alt="" width="160px" />
-                <h1 style="font-size: clamp(53px, 8vw, 80px);" class="ms-2 ms-md-4">${temperature}&deg;C</h1>
-              </div>
-              <div class="d-flex flex-sm-column flex-md-row justify-content-center justify-content-md-between align-items-center flex-wrap">
-                <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0">
-                  <img src="${iconURL}" alt="" width="50%" />
-                  <h6>${result.weather[0].description.toUpperCase()}</h6>
-                </div>
-                <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0">
-                  <img src="./humidity.png" alt="" width="30%" />
-                 <div class="d-flex flex-column align-items-center justify-content-center">
-                  <h6>HUMIDITY</h6>
-                  <h4>${humidity}%</h4>
+        let output = document.getElementById("output");
+        output.innerHTML = `<div class="d-flex flex-sm-column flex-md-row justify-content-center justify-content-md-between align-items-center flex-wrap">
+                  <h1 class="mt-5">${result.name}</h1>
+                  <div class="mt-2 mt-md-5">
+                    <h4>${dateTime[0]}</h4>
+                    <h4 class="float-md-end float-none text-center">${
+                      dateTime[1]
+                    }</h4>
                   </div>
                 </div>
-                <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0 ">
-                  <img src="./atmospheric.png" alt="" width="30%" />
-                  <div class="d-flex flex-column align-items-center justify-content-center">
-                  <h6>PRESSURE</h6>
-                  <h4>${pressure} hPa</h4>
-                  </div>
+                <div style="height: 300px" class="d-flex align-items-center">
+                  <img src="./day-and-night.png" alt="" width="160px" />
+                  <h1 style="font-size: clamp(53px, 8vw, 80px);" class="ms-2 ms-md-4">${temperature}&deg;C</h1>
                 </div>
-                <div class=" box d-flex align-items-center justify-content-center mt-3 mt-md-0 mb-5 mb-md-5">
-                  <img src="./wind.png" alt="" width="30%" />
-                  <div class="d-flex flex-column align-items-center justify-content-center">
-                  <h6>WIND</h6>
-                  <h4>${wind_speed} m/s</h4>
+                <div class="d-flex flex-sm-column flex-md-row justify-content-center justify-content-md-between align-items-center flex-wrap">
+                  <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0">
+                    <img src="${iconURL}" alt="" width="50%" />
+                    <h6>${result.weather[0].description.toUpperCase()}</h6>
                   </div>
-                </div>
-              </div>`;
-        });
-      });
+                  <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0">
+                    <img src="./humidity.png" alt="" width="30%" />
+                   <div class="d-flex flex-column align-items-center justify-content-center">
+                    <h6>HUMIDITY</h6>
+                    <h4>${humidity}%</h4>
+                    </div>
+                  </div>
+                  <div class=" box d-flex align-items-center justify-content-center m-3 m-md-0 ">
+                    <img src="./atmospheric.png" alt="" width="30%" />
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                    <h6>PRESSURE</h6>
+                    <h4>${pressure} hPa</h4>
+                    </div>
+                  </div>
+                  <div class=" box d-flex align-items-center justify-content-center mt-3 mt-md-0 mb-5 mb-md-5">
+                    <img src="./wind.png" alt="" width="30%" />
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                    <h6>WIND</h6>
+                    <h4>${wind_speed} m/s</h4>
+                    </div>
+                  </div>
+                </div>`;
+      } catch (error) {
+        output.innerHTML = ` <div
+            class="d-flex flex-column align-items-center justify-content-center mt-5 float"
+          >
+            <img src="snow.png" alt="" width="220px" />
+            <h4 class="mt-5">Get the Weather Update . . .</h4>
+          </div>`;
+        alert("Location not found ... ");
+      }
     };
   </script>
 </html>
